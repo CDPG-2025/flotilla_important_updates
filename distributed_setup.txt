@@ -39,26 +39,16 @@ python flo_server.py
 -----------------------
 The Client machine runs the worker process. It does **NOT** need to run `docker-compose`.
 
-### A. Configure MQTT IP
-You must tell the client where the MQTT Broker is (i.e., the Server's IP).
-1. Open `src/config/client_config.yaml`.
-2. Change `mqtt_broker` from `localhost` to the Server's IP.
+### A. Start Client with Server IP
+You can now specify the Server's IP (MQTT Broker) directly via the command line, without editing config files.
 
-```yaml
-comm_config:
-  mqtt:
-    type: client
-    client_name: workstation
-    mqtt_broker: 192.168.1.100  # <--- CHANGE THIS
-    mqtt_broker_port: 1884
-```
-
-### B. Start Client
-Run the client script.
+Run the client script:
 ```bash
 cd /path/to/flotilla/src
-python flo_client.py --client-num 1
+python flo_client.py --client-num 1 --server-ip 192.168.1.100
 ```
+*Replace `192.168.1.100` with your actual Server IP.*
+
 *Note: You can use `--client-num 1` on every distinct machine, as long as they are on different IPs. The Server identifies them by their unique UUIDs (generated automatically).*
 
 4. Running a Session

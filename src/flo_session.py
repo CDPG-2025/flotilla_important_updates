@@ -54,7 +54,7 @@ if "--restore" in sys.argv or "--revive" in sys.argv or "--file" in sys.argv:
 parser.add_argument(
     "--federated_server_endpoint",
     type=str,
-    default="10.24.24.31:12345",
+    default="localhost:12345",
     help="Address of the Federated Learning Server",
 )
 

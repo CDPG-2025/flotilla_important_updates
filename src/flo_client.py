@@ -34,6 +34,12 @@ def main():
         default=1,
         help="Client number for running multiple clients (default: 1). Creates separate temp directories and unique ports.",
     )
+    parser.add_argument(
+        "--server-ip",
+        type=str,
+        default="localhost",
+        help="IP address of the Flotilla Server (MQTT Broker). Default: localhost",
+    )
     args = parser.parse_args()
     client_num = args.client_num
     print(f"[FLOW] flo_client.py: Client number: {client_num}")
@@ -63,7 +69,16 @@ def main():
     client_config["comm_config"]["grpc"]["async_port"] = original_async_port + port_offset
     
     print(f"[FLOW] flo_client.py: gRPC Sync Port: {client_config['comm_config']['grpc']['sync_port']}")
+    print(f"[FLOW] flo_client.py: gRPC Sync Port: {client_config['comm_config']['grpc']['sync_port']}")
     print(f"[FLOW] flo_client.py: gRPC Async Port: {client_config['comm_config']['grpc']['async_port']}")
+
+    # D. Modify MQTT Broker IP
+    server_ip = args.server_ip
+    if server_ip != "localhost":
+        client_config["comm_config"]["mqtt"]["mqtt_broker"] = server_ip
+        print(f"[FLOW] flo_client.py: Overriding MQTT Broker IP to: {server_ip}")
+    else:
+        print(f"[FLOW] flo_client.py: Using default MQTT Broker IP: {client_config['comm_config']['mqtt']['mqtt_broker']}")
 
     # 3. Load or Generate Client Info
     if os.path.isfile(os.path.join(temp_dir_path, "client_info.yaml")):
