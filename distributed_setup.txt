@@ -17,6 +17,15 @@ This document explains how to run Flotilla when the Server and Clients are on **
   - Allow Inbound TCP on Ports **50053** and **50054** (gRPC Sync/Async).
   - *Note: If running multiple clients on one machine, open the subsequent ports too (50055, 50056, etc).*
 
+### ⚠️ IMPORTANT FOR VM USERS (VirtualBox / VMware) ⚠️
+If your Server IP looks like `10.0.2.15`, you are using **NAT**. The Client machine **CANNOT** connect to this IP.
+1. **Shut down** your VM.
+2. Go to **Settings > Network**.
+3. Change "Attached to" from **NAT** to **Bridged Adapter**.
+4. Restart the VM.
+5. Run `hostname -I` again. You should now get an IP like `192.168.0.xxx` (same range as your Client).
+**Use THIS new IP for all commands.**
+
 2. Server Machine Setup
 -----------------------
 The Server hosts the infrastructure (MQTT, Redis) and the Leader process.
