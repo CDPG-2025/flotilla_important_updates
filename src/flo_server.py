@@ -109,6 +109,21 @@ def execute_command():
 
 def main():
     print("\n[FLOW] flo_server.py: Starting FLo_Server")
+    
+    # Display Server IP for user convenience
+    import socket
+    try:
+        # Connect to a public DNS to determine the most likely public IP
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            server_ip = s.getsockname()[0]
+            print(f"\n{'='*60}")
+            print(f"SERVER IP ADDRESS: {server_ip}")
+            print(f"Clients should connect using: --server-ip {server_ip}")
+            print(f"{'='*60}\n")
+    except Exception:
+        print("\n[WARNING] Could not determine public IP. Using localhost/127.0.0.1")
+
     global flo_server
     flo_server = FlotillaServerManager(server_config)
     print("[FLOW] flo_server.py: FlotillaServerManager initialized")

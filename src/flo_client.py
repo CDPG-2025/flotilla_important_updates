@@ -44,6 +44,18 @@ def main():
     client_num = args.client_num
     print(f"[FLOW] flo_client.py: Client number: {client_num}")
 
+    # Display Client IP
+    import socket
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            client_ip = s.getsockname()[0]
+            print(f"\n{'='*60}")
+            print(f"CLIENT IP ADDRESS: {client_ip}")
+            print(f"{'='*60}\n")
+    except Exception:
+        print("\n[WARNING] Could not determine Client IP.")
+
     # 2. Load and Modify Configuration
     client_config = OpenYaML(os.path.join("config", "client_config.yaml"))
     
