@@ -15,7 +15,7 @@ benchmark_config:
   model_id: FedAT_CNN
   model_dir: ../models/FedAT_CNN
   model_class: FedAT_CNN
-  dataset: SYNTHETIC_IID
+  dataset: CIFAR10_IID
   bench_minibatch_count: 500
   batch_size: 4
   learning_rate: 0.0001
@@ -23,14 +23,14 @@ benchmark_config:
 
 server_training_config:
   model_dir: ../models/FedAT_CNN
-  validation_dataset: SYNTHETIC_IID
+  validation_dataset: CIFAR10_IID
   global_model_validation_batch_size: 100
   num_training_rounds: 100
 
 client_training_config:
   model_id: FedAT_CNN
   model_class: FedAT_CNN
-  dataset: SYNTHETIC_IID
+  dataset: CIFAR10_IID
   epochs: 3
   batch_size: 4
   learning_rate: 0.00005
