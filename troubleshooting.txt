@@ -11,6 +11,12 @@ ping <SERVER_IP>
 ```
 If this fails, you have a basic network issue.
 
+**CRITICAL: Subnet Mismatch**
+Check if your IPs are on the same subnet.
+- Client: `192.168.0.xxx`
+- Server: `192.168.1.xxx`
+**These are different networks!** Unless you have a router configured, they cannot talk. Connect both machines to the same Wi-Fi or switch so they have IPs in the same range (e.g., both `192.168.1.xxx`).
+
 2. Firewall Check (Most Common)
 -------------------------------
 The Server machine must allow inbound connections on ports **1884** (MQTT) and **12345** (REST).

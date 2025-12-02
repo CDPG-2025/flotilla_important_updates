@@ -483,7 +483,6 @@ def get_cifar100():
         root="./data", train=False, download=True, transform=transform
     )
     testloader = torch.utils.data.DataLoader(testset, batch_size=1, shuffle=False)
-
     return [trainloader, testloader]
 
 
@@ -510,6 +509,46 @@ def get_imagenet():
     return [trainloader, testloader]
 
 
+def get_synthetic(num_train_samples=5000, num_test_samples=1000, num_classes=10, 
+                  image_size=(3, 224, 224)):
+    """
+    Generate a synthetic dataset with random images and labels.
+    
+    Args:
+        num_train_samples (int): Number of training samples (default: 5000)
+        num_test_samples (int): Number of test samples (default: 1000)
+        num_classes (int): Number of classes for classification (default: 10)
+        image_size (tuple): Image dimensions (channels, height, width) (default: (3, 224, 224))
+    
+    Returns:
+        list: [trainloader, testloader]
+    """
+    print(f"Generating synthetic dataset with {num_train_samples} train samples and {num_test_samples} test samples...")
+    
+    # Generate random training data
+    train_data = torch.randn(num_train_samples, *image_size)
+    train_labels = torch.randint(0, num_classes, (num_train_samples,))
+    
+    # Generate random test data
+    test_data = torch.randn(num_test_samples, *image_size)
+    test_labels = torch.randint(0, num_classes, (num_test_samples,))
+    
+    # Normalize the data to be in range [-1, 1]
+    train_data = (train_data - train_data.mean()) / train_data.std()
+    test_data = (test_data - test_data.mean()) / test_data.std()
+    
+    # Create TensorDataset
+    train_dataset = torch.utils.data.TensorDataset(train_data, train_labels)
+    test_dataset = torch.utils.data.TensorDataset(test_data, test_labels)
+    
+    # Create DataLoaders
+    trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=1, shuffle=False)
+    testloader = torch.utils.data.DataLoader(test_dataset, batch_size=1, shuffle=False)
+    
+    print("Synthetic dataset generated successfully!")
+    return [trainloader, testloader]
+
+
 def get_data(dataset_name):
     if dataset_name == "MNIST":
         data = get_mnist()
@@ -521,6 +560,8 @@ def get_data(dataset_name):
         data = get_cifar100()
     elif dataset_name == "IMAGENET":
         data = get_imagenet()
+    elif dataset_name == "SYNTHETIC":
+        data = get_synthetic()
     else:
         data = None
     return data
@@ -529,7 +570,7 @@ def get_data(dataset_name):
 if __name__ == "__main__":
     random_seed(100)
 
-    datasets = ["mnist", "emnist", "cifar10", "cifar100", "imagenet"]
+    datasets = ["mnist", "emnist", "cifar10", "cifar100", "imagenet", "synthetic"]
     technique = ["dirichlet", "limit_label", "limit_label_unique", "probability", "equal_label", "iid", "fixed_samples"]
 
     # parser
