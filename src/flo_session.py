@@ -54,7 +54,7 @@ if "--restore" in sys.argv or "--revive" in sys.argv or "--file" in sys.argv:
 parser.add_argument(
     "--server-ip",
     type=str,
-    default="localhost",
+    default="0.0.0.0",
     help="IP address of the Federated Learning Server (default: localhost)",
 )
 
